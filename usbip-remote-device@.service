@@ -1,0 +1,15 @@
+[Unit]
+Description=USB/IP Device %I
+After=network.target
+
+[Service]
+Type=oneshot
+EnvironmentFile=/etc/usbip-devices/%i.conf
+RemainAfterExit=yes
+ExecStartPre=/sbin/modprobe vhci-hcd
+ExecStart=/usr/sbin/attach-usbip-device.sh %i
+Restart=on-failure
+RestartSec=30
+
+[Install]
+WantedBy=multi-user.target
